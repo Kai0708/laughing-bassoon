@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Concordia — Therapeutic Music Companion</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="orbs">
+<div class="orb o1">
+</div>
+<div class="orb o2">
+</div>
+<div class="orb o3">
+</div>
+</div>
+<!-- ══ AUTH OVERLAY ══ -->
+<div class="auth-overlay" id="authOverlay">
+<div class="auth-card">
+<div class="auth-logo">
+<svg viewBox="0 0 24 24">
+<path d="M9 18V5l12-2v13"/>
+<circle cx="6" cy="18" r="3"/>
+<circle cx="18" cy="16" r="3"/>
+</svg>
+</div>
+<h1 class="auth-title">Welcome to Concordia</h1>
+<p class="auth-sub">Sign in with your Google account to save your sessions, track your wellbeing, and personalize your music. Always free.</p>
+<!-- The official Google button renders here when a Client ID is configured -->
+<div id="gbtnContainer" style="display:flex;justify-content:center">
+</div>
+<!-- Fallback button shown when Google isn't configured / can't load -->
+<button class="google-btn" id="customGoogleBtn" onclick="signInGoogle()">
+<svg viewBox="0 0 48 48">
+<path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+<path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+<path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+<path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+</svg>
+Sign in with Google
+</button>
+<div class="auth-or">or</div>
+<button class="guest-btn" onclick="signInGuest()">Continue without an account</button>
+<p class="auth-note" id="authNote">🔒 Your data stays private and is saved only to your own account.</p>
+</div>
+</div>
+<div class="app">
+<span class="user-chip hidden" id="userChip">
+</span>
+<!-- HEADER -->
+<div class="hdr">
+<div class="logo">
+<div class="logo-icon">
+<svg viewBox="0 0 24 24">
+<path d="M9 18V5l12-2v13"/>
+<circle cx="6" cy="18" r="3"/>
+<circle cx="18" cy="16" r="3"/>
+</svg>
+</div>
+<span class="logo-name">Concordia</span>
+</div>
+<h1 class="tagline">Music that <em>heals</em>
+<br>exactly you</h1>
+<p class="sub">AI-powered therapeutic soundscapes with real synthesized instruments — personalized to your psychology and musical taste.</p>
+<span class="badge">Always free · No ads · Non-addictive by design</span>
+</div>
+<!-- NAV -->
+<div class="nav">
+<button class="nb on" onclick="showTab('session',this)">🎵 Session</button>
+<button class="nb" onclick="showTab('profile',this)">👤 My Profile</button>
+<button class="nb" onclick="showTab('history',this)">📋 History</button>
+<button class="nb" onclick="showTab('science',this)">🔬 How It Heals</button>
+</div>
+<!-- ══════════ SESSION TAB ══════════ -->
+<div class="tab on" id="tab-session">
+<!-- SCREEN 0: HOME -->
+<div class="screen on" id="s-home">
+<div class="home-hero">
+<div class="home-logo">
+<svg viewBox="0 0 24 24">
+<path d="M9 18V5l12-2v13"/>
+<circle cx="6" cy="18" r="3"/>
+<circle cx="18" cy="16" r="3"/>
+</svg>
+</div>
+<h1 class="home-greeting" id="homeGreeting">Welcome to Concordia</h1>
+<p class="home-tagline">Original, AI-composed therapeutic music — shaped for exactly how you feel, right now.</p>
+<button class="btn bp home-cta" onclick="go('s-mood')">Begin a session →</button>
+<div class="home-stats" id="homeStats">
+</div>
+</div>
+<div class="home-feats">
+<div class="home-feat">
+<span class="hf-i">🎼</span>
+<div>
+<div class="hf-t">Composed for you</div>
+<div class="hf-d">A new piece every time, written to your mood, goals & mind profile.</div>
+</div>
+</div>
+<div class="home-feat">
+<span class="hf-i">🧠</span>
+<div>
+<div class="hf-t">Brainwave-guided</div>
+<div class="hf-d">Binaural frequencies tuned for calm, focus, sleep, memory & more.</div>
+</div>
+</div>
+<div class="home-feat">
+<span class="hf-i">🌿</span>
+<div>
+<div class="hf-t">Gentle by design</div>
+<div class="hf-d">Non-addictive, evidence-informed, and always free.</div>
+</div>
+</div>
+</div>
+<div class="home-quick">
+<div class="hq-label">Or jump straight in:</div>
+<div class="hq-row">
+<button class="hq-btn" onclick="quickStart('calm')">🌊 Deep Calm</button>
+<button class="hq-btn" onclick="quickStart('focus')">🔬 Focus</button>
+<button class="hq-btn" onclick="quickStart('sleep')">🌙 Sleep</button>
+<button class="hq-btn" onclick="quickStart('mood')">☀️ Mood Lift</button>
+</div>
+</div>
+</div>
+<!-- SCREEN 1: MOOD -->
+<div class="screen" id="s-mood">
+<div class="card">
+<div class="prog-wrap">
+<div class="prog-fill" style="width:14%">
+</div>
+</div>
+<div class="ct">How are you feeling right now?</div>
+<div class="cs">Your emotional state shapes the music. Be honest — there's no wrong answer.</div>
+<div class="mood-grid">
+<button class="mb" onclick="sel(this,'.mb','mood','anxious')">
+<span>😰</span>Anxious</button>
+<button class="mb" onclick="sel(this,'.mb','mood','sad')">
+<span>😔</span>Sad</button>
+<button class="mb" onclick="sel(this,'.mb','mood','foggy')">
+<span>😶‍🌫️</span>Foggy</button>
+<button class="mb" onclick="sel(this,'.mb','mood','restless')">
+<span>😤</span>Restless</button>
+<button class="mb" onclick="sel(this,'.mb','mood','tired')">
+<span>😴</span>Tired</button>
+<button class="mb" onclick="sel(this,'.mb','mood','neutral')">
+<span>😐</span>Neutral</button>
+<button class="mb" onclick="sel(this,'.mb','mood','okay')">
+<span>🙂</span>Okay</button>
+<button class="mb" onclick="sel(this,'.mb','mood','good')">
+<span>😊</span>Good</button>
+</div>
+<p style="font-size:13px;font-weight:500;margin-bottom:7px">Stress level right now</p>
+<div class="srow">
+<span style="font-size:13px;color:var(--muted)">Low</span>
+<input type="range" class="sl2" id="stressS" min="1" max="10" value="5" oninput="document.getElementById('stressV').textContent=this.value">
+<span style="font-size:13px;color:var(--muted)">High</span>
+<span class="sv" id="stressV">5</span>
+</div>
+<div class="brow" style="margin-top:22px">
+<span style="font-size:12px;color:var(--muted)">Step 1 of 5</span>
+<button class="btn bp" onclick="go('s-session')">Continue →</button>
+</div>
+</div>
+</div>
+<!-- SCREEN 2: SESSION TYPE -->
+<div class="screen" id="s-session">
+<div class="card">
+<div class="prog-wrap">
+<div class="prog-fill" style="width:35%">
+</div>
+</div>
+<div class="ct">What would you like today?</div>
+<div class="cs">Each mode uses specific therapeutic frequencies, tempos &amp; musical keys backed by peer-reviewed research.</div>
+<div class="stype-grid">
+<button class="stb" onclick="sel(this,'.stb','session','calm')">
+<span class="si">🌊</span>
+<span class="sl">Deep Calm</span>
+<span class="sd">Theta 6 Hz · D minor · 60 BPM</span>
+</button>
+<button class="stb" onclick="sel(this,'.stb','session','focus')">
+<span class="si">🔬</span>
+<span class="sl">Clarity &amp; Focus</span>
+<span class="sd">Alpha 10 Hz · A major · 72 BPM</span>
+</button>
+<button class="stb" onclick="sel(this,'.stb','session','sleep')">
+<span class="si">🌙</span>
+<span class="sl">Sleep Prep</span>
+<span class="sd">Delta 2 Hz · F major · 50 BPM</span>
+</button>
+<button class="stb" onclick="sel(this,'.stb','session','mood')">
+<span class="si">☀️</span>
+<span class="sl">Mood Lift</span>
+<span class="sd">Alpha 12 Hz · C major · 80 BPM</span>
+</button>
+<button class="stb" onclick="sel(this,'.stb','session','memory')">
+<span class="si">🧠</span>
+<span class="sl">Memory Care</span>
+<span class="sd">Gamma 40 Hz · G major · 65 BPM</span>
+</button>
+<button class="stb" onclick="sel(this,'.stb','session','grounding')">
+<span class="si">🌿</span>
+<span class="sl">Grounding</span>
+<span class="sd">Theta 5 Hz · G minor · 64 BPM</span>
+</button>
+</div>
+<div class="brow" style="margin-top:20px">
+<button class="btn bs" onclick="go('s-mood')">← Back</button>
+<button class="btn bp" onclick="go('s-profile')">Continue →</button>
+</div>
+</div>
+</div>
+<!-- SCREEN 2b: MIND PROFILE (mental health / neurodivergence) -->
+<div class="screen" id="s-profile">
+<div class="card">
+<div class="prog-wrap">
+<div class="prog-fill" style="width:46%">
+</div>
+</div>
+<div class="ct">Anything you'd like the music to support?</div>
+<div class="cs">Optional &amp; private. Select any that apply and Concordia will shape the tempo, texture, rhythm and brainwave frequencies using research-informed principles for each. This isn't medical treatment — it's a companion designed with care.</div>
+<div class="cond-grid" id="condGrid">
+<button class="condchip" onclick="toggleCond(this,'anxiety')">
+<span class="condicon">🌬️</span>
+<span class="condlbl">Anxiety</span>
+</button>
+<button class="condchip" onclick="toggleCond(this,'depression')">
+<span class="condicon">🌅</span>
+<span class="condlbl">Depression</span>
+</button>
+<button class="condchip" onclick="toggleCond(this,'ptsd')">
+<span class="condicon">🛡️</span>
+<span class="condlbl">PTSD / Trauma</span>
+</button>
+<button class="condchip" onclick="toggleCond(this,'insomnia')">
+<span class="condicon">🌙</span>
+<span class="condlbl">Insomnia</span>
+</button>
+<button class="condchip" onclick="toggleCond(this,'adhd')">
+<span class="condicon">⚡</span>
+<span class="condlbl">ADHD</span>
+</button>
+<button class="condchip" onclick="toggleCond(this,'autism')">
+<span class="condicon">🧩</span>
+<span class="condlbl">Autism</span>
+</button>
+<button class="condchip" onclick="toggleCond(this,'ocd')">
+<span class="condicon">🔄</span>
+<span class="condlbl">OCD</span>
+</button>
+<button class="condchip" onclick="toggleCond(this,'bipolar')">
+<span class="condicon">⚖️</span>
+<span class="condlbl">Bipolar</span>
+</button>
+<button class="condchip" onclick="toggleCond(this,'dementia')">
+<span class="condicon">🧠</span>
+<span class="condlbl">Dementia / Memory</span>
+</button>
+<button class="condchip" onclick="toggleCond(this,'pain')">
+<span class="condicon">🌊</span>
+<span class="condlbl">Chronic pain</span>
+</button>
+<button class="condchip" onclick="toggleCond(this,'sensory')">
+<span class="condicon">🔅</span>
+<span class="condlbl">Sensory sensitivity</span>
+</button>
+<button class="condchip" onclick="toggleCond(this,'burnout')">
+<span class="condicon">🍃</span>
+<span class="condlbl">Stress / Burnout</span>
+</button>
+</div>
+<div id="condNote" class="cond-note hidden">
+</div>
+<div class="brow" style="margin-top:20px">
+<button class="btn bs" onclick="go('s-session')">← Back</button>
+<button class="btn bp" onclick="go('s-instruments')">Continue →</button>
+</div>
+</div>
+</div>
+<!-- SCREEN 3: INSTRUMENTS -->
+<div class="screen" id="s-instruments">
+<div class="card">
+<div class="prog-wrap">
+<div class="prog-fill" style="width:58%">
+</div>
+</div>
+<div class="ct">Choose your instrument</div>
+<div class="cs">Every instrument is synthesized live using acoustic modelling. Or describe any instrument in the world and we'll create it.</div>
+<div class="inst-grid" id="instGrid">
+<button class="ib" onclick="selInst(this,'piano')">
+<span class="iico">🎹</span>
+<span class="inm">Piano</span>
+<span class="idesc">Warm strings &amp; felt hammer</span>
+</button>
+<button class="ib" onclick="selInst(this,'strings')">
+<span class="iico">🎻</span>
+<span class="inm">Strings</span>
+<span class="idesc">Cello &amp; violin bowing</span>
+</button>
+<button class="ib" onclick="selInst(this,'flute')">
+<span class="iico">🪈</span>
+<span class="inm">Flute</span>
+<span class="idesc">Breathy, airy tone</span>
+</button>
+<button class="ib" onclick="selInst(this,'guitar')">
+<span class="iico">🎸</span>
+<span class="inm">Guitar</span>
+<span class="idesc">Plucked acoustic nylon</span>
+</button>
+<button class="ib" onclick="selInst(this,'harp')">
+<span class="iico">🪕</span>
+<span class="inm">Harp</span>
+<span class="idesc">Bright cascading plucks</span>
+</button>
+<button class="ib" onclick="selInst(this,'bowl')">
+<span class="iico">🔔</span>
+<span class="inm">Singing Bowl</span>
+<span class="idesc">Tibetan overtone ring</span>
+</button>
+<button class="ib" onclick="selInst(this,'marimba')">
+<span class="iico">🪘</span>
+<span class="inm">Marimba</span>
+<span class="idesc">Warm wooden percussion</span>
+</button>
+<button class="ib" onclick="selInst(this,'sitar')">
+<span class="iico">🎵</span>
+<span class="inm">Sitar</span>
+<span class="idesc">Buzzy drone resonance</span>
+</button>
+<button class="ib" onclick="selInst(this,'shakuhachi')">
+<span class="iico">🎋</span>
+<span class="inm">Shakuhachi</span>
+<span class="idesc">Bamboo breath flute</span>
+</button>
+<button class="ib" onclick="selInst(this,'crystal')">
+<span class="iico">💎</span>
+<span class="inm">Crystal Bowl</span>
+<span class="idesc">Pure glass resonance</span>
+</button>
+<button class="ib" onclick="selInst(this,'organ')">
+<span class="iico">🎼</span>
+<span class="inm">Organ</span>
+<span class="idesc">Lush pipe harmonics</span>
+</button>
+<button class="ib" onclick="selInst(this,'kalimba')">
+<span class="iico">🎶</span>
+<span class="inm">Kalimba</span>
+<span class="idesc">African thumb piano</span>
+</button>
+</div>
+<!-- CUSTOM INSTRUMENT -->
+<div class="custom-inst-wrap" id="customWrap">
+<label class="fl" style="margin-bottom:10px">✏️ Or describe any instrument in your own words</label>
+<div class="custom-row">
+<input class="custom-fi" id="customInstInput" placeholder="e.g. ancient Japanese koto, steel tongue drum, glass harmonica…" onkeydown="if(event.key==='Enter')createCustomInst()">
+<button class="custom-btn" onclick="createCustomInst()">Create →</button>
+</div>
+<div class="custom-status" id="customStatus">
+</div>
+</div>
+<!-- KEY SELECTOR -->
+<div class="key-section">
+<label class="fl" style="margin-bottom:4px">🎼 Musical key</label>
+<p style="font-size:12px;color:var(--muted);margin-bottom:10px">The key shapes the emotional colour of the music. Let Concordia pick the most therapeutic key for your mood, or choose your own.</p>
+<div class="key-grid" id="keyGrid">
+<button class="kb auto on" data-key="auto" onclick="selKey(this,'auto')">✨ Let Concordia choose</button>
+</div>
+<div class="key-label">Major keys — brighter, uplifting</div>
+<div class="key-grid">
+<button class="kb" data-key="C major" onclick="selKey(this,'C major')">C major</button>
+<button class="kb" data-key="D major" onclick="selKey(this,'D major')">D major</button>
+<button class="kb" data-key="E major" onclick="selKey(this,'E major')">E major</button>
+<button class="kb" data-key="F major" onclick="selKey(this,'F major')">F major</button>
+<button class="kb" data-key="G major" onclick="selKey(this,'G major')">G major</button>
+<button class="kb" data-key="A major" onclick="selKey(this,'A major')">A major</button>
+<button class="kb" data-key="Bb major" onclick="selKey(this,'Bb major')">B♭ major</button>
+</div>
+<div class="key-label">Minor keys — deeper, introspective, calming</div>
+<div class="key-grid">
+<button class="kb" data-key="A minor" onclick="selKey(this,'A minor')">A minor</button>
+<button class="kb" data-key="B minor" onclick="selKey(this,'B minor')">B minor</button>
+<button class="kb" data-key="C minor" onclick="selKey(this,'C minor')">C minor</button>
+<button class="kb" data-key="D minor" onclick="selKey(this,'D minor')">D minor</button>
+<button class="kb" data-key="E minor" onclick="selKey(this,'E minor')">E minor</button>
+<button class="kb" data-key="F# minor" onclick="selKey(this,'F# minor')">F♯ minor</button>
+<button class="kb" data-key="G minor" onclick="selKey(this,'G minor')">G minor</button>
+</div>
+</div>
+<div class="brow" style="margin-top:20px">
+<button class="btn bs" onclick="go('s-profile')">← Back</button>
+<button class="btn bp" onclick="go('s-goals')">Continue →</button>
+</div>
+</div>
+</div>
+<!-- SCREEN 4: GOALS -->
+<div class="screen" id="s-goals">
+<div class="card">
+<div class="prog-wrap">
+<div class="prog-fill" style="width:82%">
+</div>
+</div>
+<div class="ct">Any specific needs today?</div>
+<div class="cs">Fine-tune the soundscape. Select all that apply.</div>
+<div class="tags">
+<button class="tag" onclick="this.classList.toggle('on')">Slow my breathing</button>
+<button class="tag" onclick="this.classList.toggle('on')">Quiet racing thoughts</button>
+<button class="tag" onclick="this.classList.toggle('on')">Feel less alone</button>
+<button class="tag" onclick="this.classList.toggle('on')">Stimulate memory</button>
+<button class="tag" onclick="this.classList.toggle('on')">Physical relaxation</button>
+<button class="tag" onclick="this.classList.toggle('on')">Reduce pain</button>
+<button class="tag" onclick="this.classList.toggle('on')">Feel safe</button>
+<button class="tag" onclick="this.classList.toggle('on')">Gentle uplift</button>
+</div>
+<div style="margin-top:20px">
+<label class="fl">Session length</label>
+<div class="srow">
+<input type="range" class="sl2" id="durS" min="5" max="60" step="5" value="20" oninput="document.getElementById('durV').textContent=this.value+' min'">
+<span class="sv" id="durV">20 min</span>
+</div>
+</div>
+<div class="warn" style="margin-top:14px">⏱️ Sessions capped at 60 min — intentional design to prevent over-reliance.</div>
+<div class="brow">
+<button class="btn bs" onclick="go('s-instruments')">← Back</button>
+<button class="btn bp" onclick="startAnalysis()">Generate Music →</button>
+</div>
+</div>
+</div>
+<!-- SCREEN: ANALYSIS -->
+<div class="screen" id="s-analysis">
+<div class="card">
+<div class="anwrap">
+<div class="ct">Composing your soundscape…</div>
+<div class="cs" id="analysisSubtitle">Synthesizing live instrument music for your state</div>
+<canvas id="waveC" height="85" style="width:100%;display:block;margin:18px 0">
+</canvas>
+<div>
+<div class="astep" id="as1">
+<div class="sdot">1</div>
+<span>Reading your emotional profile &amp; stress level</span>
+</div>
+<div class="astep" id="as2">
+<div class="sdot">2</div>
+<span>Selecting therapeutic key, tempo &amp; binaural frequency</span>
+</div>
+<div class="astep" id="as3">
+<div class="sdot">3</div>
+<span id="as3txt">Calibrating instrument synthesis engine</span>
+</div>
+<div class="astep" id="as4">
+<div class="sdot">4</div>
+<span>Layering chords, bass, binaural beats &amp; nature sounds</span>
+</div>
+<div class="astep" id="as5">
+<div class="sdot">5</div>
+<span>Personalising to your profile &amp; preferences</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- SCREEN: PLAYER -->
+<div class="screen" id="s-player">
+<div class="player">
+<div class="po po1">
+</div>
+<div class="po po2">
+</div>
+<div class="pc">
+<div class="np">Now Playing · Live Synthesized Therapeutic Music</div>
+<div class="trtitle" id="trackTitle">Ocean Breath in D minor</div>
+<div class="trsub" id="trackSub">60 BPM · Theta 6 Hz binaural · 432 Hz</div>
+<div class="inst-badge" id="instBadge">🎹 <span id="instBadgeLabel">Piano</span>
+</div>
+<div class="viz" id="viz">
+</div>
+<div class="pt" onclick="seek(event,this)">
+<div class="pf" id="pf" style="width:0%">
+</div>
+</div>
+<div class="trow">
+<span id="te">0:00</span>
+<span id="td">20:00</span>
+</div>
+<div class="ctrls">
+<button class="cb" onclick="restart()">⟨⟨</button>
+<button class="cb cp" id="playBtn" onclick="togglePlay()">▶</button>
+<button class="cb" onclick="skip30()">⟩⟩</button>
+</div>
+<div style="display:flex;align-items:center;gap:9px;opacity:.7">
+<span style="font-size:12px">Vol</span>
+<input type="range" min="0" max="100" value="70" id="volS" style="flex:1;accent-color:rgba(255,255,255,.8)" oninput="setVol(this.value)">
+<span style="font-size:12px" id="volV">70%</span>
+</div>
+<p style="font-size:11px;opacity:.4;text-align:center;margin-top:14px">🎧 Use headphones for full binaural beat effect</p>
+</div>
+</div>
+<div class="card">
+<div class="ct">Your Therapeutic Session</div>
+<div class="cs">Powered by evidence-based music therapy principles</div>
+<div class="tbrow">
+<button class="tbb on" onclick="ptab(this,'p-insights')">Insights</button>
+<button class="tbb" onclick="ptab(this,'p-ask')">Ask Concordia AI</button>
+<button class="tbb" onclick="ptab(this,'p-adjust')">Adjust Sound</button>
+<button class="tbb" onclick="ptab(this,'p-inst')">Change Instrument</button>
+</div>
+<div class="panel on" id="p-insights">
+<div class="ig">
+<div class="ii">
+<div class="ilbl">Tempo</div>
+<div class="ival" id="iT">60 BPM</div>
+<div class="isub">Resting heart rate</div>
+</div>
+<div class="ii">
+<div class="ilbl">Binaural Beat</div>
+<div class="ival" id="iB">6 Hz Theta</div>
+<div class="isub">Calming brainwave</div>
+</div>
+<div class="ii">
+<div class="ilbl">Musical Key</div>
+<div class="ival" id="iK">D minor</div>
+<div class="isub">Calming, introspective</div>
+</div>
+<div class="ii">
+<div class="ilbl">Instrument</div>
+<div class="ival" id="iInst">Piano</div>
+<div class="isub">Live synthesized</div>
+</div>
+</div>
+<div class="air" id="aiIns">
+<span style="color:var(--muted);font-style:italic">Generating your personal insight…</span>
+</div>
+<div class="disc">⚠️ Concordia is a wellness companion, not a medical device. It does not replace professional mental health treatment. If in crisis, please contact a healthcare provider.</div>
+</div>
+<div class="panel" id="p-ask">
+<div class="air" id="aiAsk" style="min-height:100px">Ask me anything about your session, therapeutic music, or how you feel.</div>
+<div class="askrow">
+<input class="aski" id="askIn" placeholder="e.g. Why this instrument for me?" onkeydown="if(event.key==='Enter')doAsk()">
+<button class="askb" onclick="doAsk()">Ask →</button>
+</div>
+<div class="qtags">
+<button class="qt" onclick="qa('Why did you choose this key and tempo for me?')">Why this key?</button>
+<button class="qt" onclick="qa('What are binaural beats and how do they help?')">Binaural beats?</button>
+<button class="qt" onclick="qa('How does music help with dementia?')">Music &amp; dementia</button>
+<button class="qt" onclick="qa('Why is this instrument therapeutic?')">Why this instrument?</button>
+</div>
+</div>
+<div class="panel" id="p-adjust">
+<div class="srow">
+<span class="slbl">Tempo</span>
+<input type="range" class="sl2" min="40" max="100" value="60" id="adjTempo" oninput="adjVal('Tempo',this.value,' BPM')">
+<span class="sv" id="vTempo">60 BPM</span>
+</div>
+<div class="srow">
+<span class="slbl">Warmth</span>
+<input type="range" class="sl2" min="1" max="10" value="6" oninput="adjVal('Warmth',this.value,'')">
+<span class="sv" id="vWarmth">6</span>
+</div>
+<div class="srow">
+<span class="slbl">Nature sounds</span>
+<input type="range" class="sl2" id="natureSl" min="0" max="10" value="4" oninput="adjVal('Nature',this.value,'');updateNatureGain(this.value)">
+<span class="sv" id="vNature">4</span>
+</div>
+<div class="srow">
+<span class="slbl">Reverb</span>
+<input type="range" class="sl2" min="0" max="10" value="5" oninput="adjVal('Reverb',this.value,'');updateReverb(this.value)">
+<span class="sv" id="vReverb">5</span>
+</div>
+<label class="fl" style="margin:14px 0 8px">🎼 Change key (applies instantly)</label>
+<div class="key-grid" id="keyGridLive">
+<button class="kb auto on" data-key="auto" onclick="selKeyLive(this,'auto')">✨ Auto</button>
+<button class="kb" data-key="C major" onclick="selKeyLive(this,'C major')">C major</button>
+<button class="kb" data-key="D major" onclick="selKeyLive(this,'D major')">D major</button>
+<button class="kb" data-key="E major" onclick="selKeyLive(this,'E major')">E major</button>
+<button class="kb" data-key="F major" onclick="selKeyLive(this,'F major')">F major</button>
+<button class="kb" data-key="G major" onclick="selKeyLive(this,'G major')">G major</button>
+<button class="kb" data-key="A major" onclick="selKeyLive(this,'A major')">A major</button>
+<button class="kb" data-key="Bb major" onclick="selKeyLive(this,'Bb major')">B♭ major</button>
+<button class="kb" data-key="A minor" onclick="selKeyLive(this,'A minor')">A minor</button>
+<button class="kb" data-key="B minor" onclick="selKeyLive(this,'B minor')">B minor</button>
+<button class="kb" data-key="C minor" onclick="selKeyLive(this,'C minor')">C minor</button>
+<button class="kb" data-key="D minor" onclick="selKeyLive(this,'D minor')">D minor</button>
+<button class="kb" data-key="E minor" onclick="selKeyLive(this,'E minor')">E minor</button>
+<button class="kb" data-key="F# minor" onclick="selKeyLive(this,'F# minor')">F♯ minor</button>
+<button class="kb" data-key="G minor" onclick="selKeyLive(this,'G minor')">G minor</button>
+</div>
+<button class="btn bp" style="margin-top:16px" onclick="regen()">Regenerate with adjustments →</button>
+</div>
+<div class="panel" id="p-inst">
+<p style="font-size:13px;color:var(--muted);margin-bottom:14px">Switch instrument mid-session. Music restarts with new timbre.</p>
+<div class="inst-grid" id="instGrid2">
+<button class="ib" onclick="switchInst(this,'piano')">
+<span class="iico">🎹</span>
+<span class="inm">Piano</span>
+<span class="idesc">Hammered strings</span>
+</button>
+<button class="ib" onclick="switchInst(this,'strings')">
+<span class="iico">🎻</span>
+<span class="inm">Strings</span>
+<span class="idesc">Bowed cello/violin</span>
+</button>
+<button class="ib" onclick="switchInst(this,'flute')">
+<span class="iico">🪈</span>
+<span class="inm">Flute</span>
+<span class="idesc">Breathy sine</span>
+</button>
+<button class="ib" onclick="switchInst(this,'guitar')">
+<span class="iico">🎸</span>
+<span class="inm">Guitar</span>
+<span class="idesc">Plucked nylon</span>
+</button>
+<button class="ib" onclick="switchInst(this,'harp')">
+<span class="iico">🪕</span>
+<span class="inm">Harp</span>
+<span class="idesc">Bright cascading</span>
+</button>
+<button class="ib" onclick="switchInst(this,'bowl')">
+<span class="iico">🔔</span>
+<span class="inm">Singing Bowl</span>
+<span class="idesc">Tibetan ring</span>
+</button>
+<button class="ib" onclick="switchInst(this,'marimba')">
+<span class="iico">🪘</span>
+<span class="inm">Marimba</span>
+<span class="idesc">Wooden perc.</span>
+</button>
+<button class="ib" onclick="switchInst(this,'sitar')">
+<span class="iico">🎵</span>
+<span class="inm">Sitar</span>
+<span class="idesc">Buzzy drone</span>
+</button>
+<button class="ib" onclick="switchInst(this,'shakuhachi')">
+<span class="iico">🎋</span>
+<span class="inm">Shakuhachi</span>
+<span class="idesc">Bamboo flute</span>
+</button>
+<button class="ib" onclick="switchInst(this,'crystal')">
+<span class="iico">💎</span>
+<span class="inm">Crystal Bowl</span>
+<span class="idesc">Glass resonance</span>
+</button>
+<button class="ib" onclick="switchInst(this,'organ')">
+<span class="iico">🎼</span>
+<span class="inm">Organ</span>
+<span class="idesc">Pipe harmonics</span>
+</button>
+<button class="ib" onclick="switchInst(this,'kalimba')">
+<span class="iico">🎶</span>
+<span class="inm">Kalimba</span>
+<span class="idesc">Thumb piano</span>
+</button>
+</div>
+<div class="custom-inst-wrap" style="margin-top:10px">
+<label class="fl" style="margin-bottom:8px">✏️ Or describe a custom instrument</label>
+<div class="custom-row">
+<input class="custom-fi" id="customInstInput2" placeholder="e.g. steel tongue drum, glass harmonica…" onkeydown="if(event.key==='Enter')createCustomInst2()">
+<button class="custom-btn" onclick="createCustomInst2()">Create →</button>
+</div>
+<div class="custom-status" id="customStatus2">
+</div>
+</div>
+</div>
+</div>
+<div style="display:flex;gap:10px;flex-wrap:wrap">
+<button class="btn bs" style="flex:1" onclick="endSess()">End Session</button>
+<button class="btn bp" style="flex:1" onclick="newSess()">New Session →</button>
+</div>
+</div>
+</div>
+<!-- /tab-session -->
+<!-- ══ PROFILE TAB ══ -->
+<div class="tab hidden" id="tab-profile">
+<div class="card" style="margin-top:26px">
+<div class="ct">Personal Profile</div>
+<div class="cs">Stored only on your device. Never sent anywhere. Deletable anytime.</div>
+<div class="consent">
+<input type="checkbox" id="conC">
+<p>
+<strong>I consent to local profile storage.</strong> Concordia stores preferences on this device only. No servers, no ads, no data sales. Free forever.</p>
+</div>
+<div class="frow">
+<div class="fg">
+<label class="fl">First name (optional)</label>
+<input class="fi" placeholder="How should I call you?">
+</div>
+<div class="fg">
+<label class="fl">Age range</label>
+<select class="fs">
+<option>Prefer not to say</option>
+<option>Under 18</option>
+<option>18–30</option>
+<option>31–50</option>
+<option>51–65</option>
+<option>66–80</option>
+<option>Over 80</option>
+</select>
+</div>
+</div>
+<div class="fg">
+<label class="fl">Conditions you'd like support for (optional)</label>
+<div class="tags">
+<button class="tag" onclick="this.classList.toggle('on')">Anxiety</button>
+<button class="tag" onclick="this.classList.toggle('on')">Depression</button>
+<button class="tag" onclick="this.classList.toggle('on')">Dementia / Memory</button>
+<button class="tag" onclick="this.classList.toggle('on')">PTSD</button>
+<button class="tag" onclick="this.classList.toggle('on')">Chronic pain</button>
+<button class="tag" onclick="this.classList.toggle('on')">Insomnia</button>
+<button class="tag" onclick="this.classList.toggle('on')">ADHD</button>
+<button class="tag" onclick="this.classList.toggle('on')">Autism spectrum</button>
+<button class="tag" onclick="this.classList.toggle('on')">General wellbeing</button>
+</div>
+</div>
+</div>
+<div class="card">
+<div class="ct">Music Preferences</div>
+<div class="cs">Shapes your AI-generated music. Favourite genres get woven in; disliked ones are avoided.</div>
+<label class="fl" style="margin-bottom:9px">Genres you enjoy</label>
+<div class="gg">
+<button class="gbn" onclick="this.classList.toggle('on')">Classical</button>
+<button class="gbn" onclick="this.classList.toggle('on')">Jazz</button>
+<button class="gbn" onclick="this.classList.toggle('on')">Ambient</button>
+<button class="gbn" onclick="this.classList.toggle('on')">Folk / Acoustic</button>
+<button class="gbn" onclick="this.classList.toggle('on')">Celtic</button>
+<button class="gbn" onclick="this.classList.toggle('on')">New Age</button>
+<button class="gbn" onclick="this.classList.toggle('on')">World Music</button>
+<button class="gbn" onclick="this.classList.toggle('on')">Nature sounds</button>
+<button class="gbn" onclick="this.classList.toggle('on')">Soft Piano</button>
+<button class="gbn" onclick="this.classList.toggle('on')">Electronic</button>
+<button class="gbn" onclick="this.classList.toggle('on')">Orchestral</button>
+<button class="gbn" onclick="this.classList.toggle('on')">Gospel</button>
+</div>
+<div style="margin-top:20px">
+<div class="srow">
+<span class="slbl">Preferred tempo</span>
+<input type="range" class="sl2" min="40" max="120" value="65" oninput="this.nextElementSibling.textContent=this.value+' BPM'">
+<span class="sv">65 BPM</span>
+</div>
+<div class="srow">
+<span class="slbl">Vocals presence</span>
+<input type="range" class="sl2" min="0" max="10" value="2" oninput="this.nextElementSibling.textContent=this.value">
+<span class="sv">2</span>
+</div>
+</div>
+<button class="btn bp" style="margin-top:22px" onclick="savePro(event)">Save Profile →</button>
+</div>
+</div>
+<!-- ══ HISTORY TAB ══ -->
+<div class="tab hidden" id="tab-history">
+<div class="card" style="margin-top:26px">
+<div class="ct">Session History</div>
+<div class="cs">Your completed sessions are saved here. Concordia uses them to learn what helps you most.</div>
+<div id="histList">
+</div>
+<div style="text-align:center">
+<button class="clear-hist hidden" id="clearHistBtn" onclick="clearHistory()">Clear history</button>
+</div>
+</div>
+<div class="card">
+<div class="ct">Wellbeing Trend</div>
+<div class="cs">Your stress level after each session. A downward trend means the music is helping.</div>
+<canvas id="trendC" height="130" style="width:100%;display:block">
+</canvas>
+<div id="trendEmpty" class="hist-empty hidden">
+<span class="he-icon">📈</span>
+<span class="he-text">Complete a couple of sessions to see your wellbeing trend appear here.</span>
+</div>
+</div>
+</div>
+<!-- ══ SCIENCE TAB ══ -->
+<div class="tab hidden" id="tab-science">
+<div class="sci-hero" style="margin-top:26px">
+<h2>The Science of<br>
+<em style="font-style:italic;color:#7affcc">Healing Through Music</em>
+</h2>
+<p>Concordia is built on decades of peer-reviewed clinical music therapy research. Here is exactly how it helps specific conditions — and the science behind why.</p>
+</div>
+<div class="syndrome-grid">
+<div class="syn-card">
+<span class="syn-icon">🧠</span>
+<div class="syn-title">Dementia &amp; Alzheimer's</div>
+<div class="syn-desc">Music activates autobiographical memory even in advanced dementia — the hippocampus and limbic system remain responsive to familiar melodies long after verbal memory fades.</div>
+<div class="syn-how">
+<strong>How Concordia helps:</strong> Memory Care mode uses familiar harmonic patterns (common cadences from the listener's era), 40 Hz gamma stimulation shown to activate memory-linked neural networks, slow tempos (60–68 BPM) to reduce agitation, and gentle timbres like piano or kalimba that feel warm and non-threatening. The MATCH clinical trial (Univ. Melbourne 2024) showed AI-personalised music significantly reduces agitation in dementia patients.</div>
+<span class="ref-badge">📄 MATCH Trial 2024 · LUCID ClinicalTrials.gov</span>
+</div>
+<div class="syn-card">
+<span class="syn-icon">💙</span>
+<div class="syn-title">Depression</div>
+<div class="syn-desc">Music triggers dopamine release and lowers cortisol, directly addressing the neurochemical imbalances central to depression. A 2025 PMC meta-analysis found music therapy exerts a moderate-to-strong effect on reducing psychological stress.</div>
+<div class="syn-how">
+<strong>How Concordia helps:</strong> Mood Lift mode uses major keys, brighter timbres, and a gentle ascending tempo (75–85 BPM) using the iso-principle — starting where you are emotionally and guiding you upward. Uplifting instruments like flute, harp, and marimba are selected automatically. Alpha binaural beats (8–14 Hz) are associated with reduced depressive symptoms.</div>
+<span class="ref-badge">📄 PMC Meta-Analysis 2025 · Psychology Today</span>
+</div>
+<div class="syn-card">
+<span class="syn-icon">😰</span>
+<div class="syn-title">Anxiety &amp; Panic</div>
+<div class="syn-desc">Anxiety is associated with chaotic brainwave activity. Therapeutic music slows the nervous system by entraining the brain toward calmer frequency states — neural oscillation synchronization.</div>
+<div class="syn-how">
+<strong>How Concordia helps:</strong> Deep Calm mode uses theta binaural beats (4–8 Hz) and 60 BPM tempos to entrain and slow heart rate. Minor keys with descending melodic movement signal safety to the limbic system. Instruments with slow attacks (strings, singing bowl, crystal bowl) are especially effective for anxiety, as they avoid sharp transients that trigger startle responses.</div>
+<span class="ref-badge">📄 MDPI Binaural Review 2024 · By The Way Health 2025</span>
+</div>
+<div class="syn-card">
+<span class="syn-icon">😴</span>
+<div class="syn-title">Insomnia &amp; Sleep Disorders</div>
+<div class="syn-desc">Sleep onset is impaired by an overactive sympathetic nervous system. Music physically shifts the body into parasympathetic mode, lowering heart rate, blood pressure, and cortisol.</div>
+<div class="syn-how">
+<strong>How Concordia helps:</strong> Sleep Prep mode uses delta binaural beats (0.5–4 Hz) and slow decelerating tempo. F major key, sparse melody, and instruments with long natural decay (singing bowl, crystal bowl, harp harmonics) create a sonic environment where the mind releases vigilance and drifts toward sleep naturally.</div>
+<span class="ref-badge">📄 By The Way Health 2025 · Cedars-Sinai Research</span>
+</div>
+<div class="syn-card">
+<span class="syn-icon">🌀</span>
+<div class="syn-title">PTSD &amp; Trauma</div>
+<div class="syn-desc">Trauma disrupts the brain's ability to distinguish safe from unsafe. Music can re-regulate the autonomic nervous system without requiring verbal re-processing of traumatic content.</div>
+<div class="syn-how">
+<strong>How Concordia helps:</strong> Grounding mode avoids sudden dynamic changes or unexpected sounds. Predictable ostinato bass and steady rhythm give the nervous system a safe anchor. Instruments with warm, predictable timbres — piano, organ, kalimba — are prioritised. Theta waves support the calm, reflective state needed for emotional processing.</div>
+<span class="ref-badge">📄 UCSF Research 2025 · AI World Journal 2026</span>
+</div>
+<div class="syn-card">
+<span class="syn-icon">⚡</span>
+<div class="syn-title">ADHD &amp; Focus Difficulties</div>
+<div class="syn-desc">ADHD involves underactivation of the prefrontal cortex. Certain frequencies increase cortical arousal and improve sustained attention without medication.</div>
+<div class="syn-how">
+<strong>How Concordia helps:</strong> Clarity mode uses alpha waves (8–14 Hz) and steady 72 BPM. Instruments with consistent timbres and minimal variation (organ, piano, marimba) reduce distraction. The AI avoids sudden dynamic changes that cause overstimulation. 40 Hz gamma is used in Memory Care specifically to improve working memory — a key deficit in ADHD too.</div>
+<span class="ref-badge">📄 MindBrain Institute 2025 · PMC 2025</span>
+</div>
+<div class="syn-card">
+<span class="syn-icon">🤝</span>
+<div class="syn-title">Autism Spectrum (ASD)</div>
+<div class="syn-desc">Music bypasses verbal channels that can be challenging in ASD, offering a direct emotional connection pathway that feels safe and non-demanding.</div>
+<div class="syn-how">
+<strong>How Concordia helps:</strong> Predictable musical structures with no sudden changes, low-vocal content, and consistent timbres. The instrument selector lets users choose exactly the tonal quality that feels comfortable — avoiding timbres that may cause sensory discomfort. Research shows musical training enhances communication and social interaction skills in children with ASD.</div>
+<span class="ref-badge">📄 PMC 2025 · Lim 2010 ASD Research</span>
+</div>
+<div class="syn-card">
+<span class="syn-icon">💊</span>
+<div class="syn-title">Chronic Pain</div>
+<div class="syn-desc">Music activates the brain's endogenous opioid system — the same pathway as pain medication — reducing subjective pain perception without side effects.</div>
+<div class="syn-how">
+<strong>How Concordia helps:</strong> Calming, slow music reduces cortisol and redirects attention from pain signals through attentional gating. Instruments with smooth, sustained tones (strings, flute, crystal bowl) are particularly effective as they don't create sharp transients that could increase body tension. Studies report pain reduction of 1–2 points on a 10-point scale.</div>
+<span class="ref-badge">📄 Cedars-Sinai 2025 · Integrative Medicine Review</span>
+</div>
+</div>
+<div class="card">
+<div class="ct">Brainwave Frequencies We Use</div>
+<div class="cs">Each session mode targets a specific brainwave state through binaural beat technology. Headphones required for full effect.</div>
+<table class="freq-table">
+<thead>
+<tr>
+<th>Brainwave</th>
+<th>Frequency</th>
+<th>Brain State</th>
+<th>Used In</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<strong>Delta</strong>
+</td>
+<td>0.5–4 Hz</td>
+<td>Deep sleep, cellular healing</td>
+<td>
+<span class="pill pill-t">Sleep Prep</span>
+</td>
+</tr>
+<tr>
+<td>
+<strong>Theta</strong>
+</td>
+<td>4–8 Hz</td>
+<td>Meditation, deep calm</td>
+<td>
+<span class="pill pill-t">Deep Calm</span>
+<span class="pill pill-p">Grounding</span>
+</td>
+</tr>
+<tr>
+<td>
+<strong>Alpha</strong>
+</td>
+<td>8–14 Hz</td>
+<td>Relaxed focus, calm alertness</td>
+<td>
+<span class="pill pill-a">Mood Lift</span>
+<span class="pill pill-p">Focus</span>
+</td>
+</tr>
+<tr>
+<td>
+<strong>Low Beta</strong>
+</td>
+<td>13–18 Hz</td>
+<td>Sustained concentration</td>
+<td>
+<span class="pill pill-p">Clarity &amp; Focus</span>
+</td>
+</tr>
+<tr>
+<td>
+<strong>Gamma</strong>
+</td>
+<td>40 Hz</td>
+<td>Memory consolidation</td>
+<td>
+<span class="pill pill-c">Memory Care</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="card">
+<div class="ct">Our Non-Addiction Promise</div>
+<div class="cs">Most apps want you hooked. Concordia is designed to make itself less necessary over time.</div>
+<div style="font-size:14px;line-height:1.9">
+<p>🔒 <strong>Session caps</strong> — max 60 minutes per session with natural breaks.</p>
+<p>🔄 <strong>Musical variety</strong> — the AI never repeats music, preventing habituation.</p>
+<p>📉 <strong>Gradual goal</strong> — music trains your nervous system to self-regulate.</p>
+<p>🌱 <strong>Real life first</strong> — after each session we encourage movement and connection.</p>
+<p>🆓 <strong>Free forever</strong> — no subscriptions, no ads, no upsells. Ever.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- /app -->
+<!-- ══ END-SESSION CHECK-IN MODAL ══ -->
+<div class="modal-overlay hidden" id="endModal">
+<div class="modal-card">
+<div class="modal-title">How do you feel now?</div>
+<div class="modal-sub">Take a breath and check in. This helps Concordia track what's working for you.</div>
+<p style="font-size:13px;font-weight:500;margin-bottom:8px">Your stress level now</p>
+<div class="srow">
+<span style="font-size:13px;color:var(--muted)">Calm</span>
+<input type="range" class="sl2" id="endStress" min="1" max="10" value="4" oninput="document.getElementById('endStressV').textContent=this.value">
+<span style="font-size:13px;color:var(--muted)">Tense</span>
+<span class="sv" id="endStressV">4</span>
+</div>
+<div style="display:flex;gap:10px;margin-top:24px">
+<button class="btn bs" style="flex:1" onclick="finishSession(true)">Skip</button>
+<button class="btn bp" style="flex:1" onclick="finishSession(false)">Save session →</button>
+</div>
+</div>
+</div>
+<script src="app.js">
+</script>
+</body>
+</html>
